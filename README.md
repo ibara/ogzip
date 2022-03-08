@@ -21,6 +21,7 @@ Supported compilers
 * [pcc](https://pcc.ludd.ltu.se/)
 * [Tiny C Compiler](https://bellard.org/tcc/)
 * [cparser](https://pp.ipd.kit.edu/firm/)
+* [Sun Studio compiler](https://www.oracle.com/technetwork/server-storage/developerstudio/overview/index.html)
 * [lacc](https://github.com/larmel/lacc)
 * [cproc](https://sr.ht/~mcf/cproc/)
 * [vbcc](http://www.compilers.de/vbcc.html)
