@@ -1,0 +1,4 @@
+gzip
+config.h
+*.o
+*.core

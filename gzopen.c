@@ -72,6 +72,7 @@
 #include <zlib.h>
 #endif /* USE_MINIZ */
 #include "compress.h"
+#include "config.h"
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */

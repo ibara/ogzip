@@ -69,6 +69,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "compress.h"
+#include "config.h"
 
 #ifndef NOCOMPRESS
 

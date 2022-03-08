@@ -334,6 +334,38 @@ EOF
   fi
 }
 
+uint32tcheck() {
+  cat << EOF > conftest.c
+#include <stdio.h>
+int main(void){u_int32_t a;return 0;}
+EOF
+  $cc $cflags -o conftest.o -c conftest.c > /dev/null 2>&1
+  $cc $ldflags -o conftest conftest.o > /dev/null 2>&1
+  if [ $? -eq 0 ] ; then
+    rm -f conftest conftest.o conftest.c
+    return 0
+  else
+    rm -f conftest conftest.o conftest.c
+    return 1
+  fi
+}
+
+uint64tcheck() {
+  cat << EOF > conftest.c
+#include <stdio.h>
+int main(void){u_int64_t a;return 0;}
+EOF
+  $cc $cflags -o conftest.o -c conftest.c > /dev/null 2>&1
+  $cc $ldflags -o conftest conftest.o > /dev/null 2>&1
+  if [ $? -eq 0 ] ; then
+    rm -f conftest conftest.o conftest.c
+    return 0
+  else
+    rm -f conftest conftest.o conftest.c
+    return 1
+  fi
+}
+
 wflagcheck() {
   cat << EOF > conftest.c
 int main(void){return 0;}
@@ -735,6 +767,24 @@ else
   echo "no"
 fi
 
+printf "checking for u_int32_t... "
+uint32tcheck
+if [ $? -eq 0 ] ; then
+  echo "yes"
+else
+  cflags="$cflags -Du_int32_t=\"unsigned int\""
+  echo "no"
+fi
+
+printf "checking for u_int64_t... "
+uint64tcheck
+if [ $? -eq 0 ] ; then
+  echo "yes"
+else
+  cflags="$cflags -Du_int64_t=\"unsigned long long\""
+  echo "no"
+fi
+
 printf "checking for out-of-tree build... "
 if [ "x$(dirname $0)" = "x." ] ; then
   echo "no"
@@ -745,6 +795,21 @@ else
   vpath="$(dirname $0)"
   cflags="$cflags -I$(pwd)"
 fi
+
+cat << EOF >> config.h
+
+#ifndef	DEFFILEMODE
+#define DEFFILEMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)
+#endif
+
+#ifndef ACCESSPERMS
+#define ACCESSPERMS (S_IRWXU|S_IRWXG|S_IRWXO) /* 00777 */
+#endif
+
+#ifndef EFTYPE
+#define EFTYPE ENOTSUP
+#endif
+EOF
 
 printf "creating Makefile... "
 Makefile
