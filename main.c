@@ -803,8 +803,8 @@ setfile(const char *name, int fd, struct stat *fs)
 		warn("fchflags: %s", name);
 #endif /* HAVE_FCHFLAGS */
 
-	ts[0] = fs->st_atim;
-	ts[1] = fs->st_mtim;
+	ts[0] = fs->st_atimespec;
+	ts[1] = fs->st_mtimespec;
 	if (futimens(fd, ts))
 		warn("futimens: %s", name);
 }
